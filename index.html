@@ -1,235 +1,556 @@
-<script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>FootballPulse | Football Edits & Highlights</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      background: #070b12;
+      color: white;
+    }
+
+    /* NAVBAR */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 7%;
+      background: rgba(7, 11, 18, 0.95);
+      border-bottom: 1px solid #202938;
+    }
+
+    .logo {
+      font-size: 25px;
+      font-weight: 800;
+      color: #ffffff;
+    }
+
+    .logo span {
+      color: #19e68c;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 25px;
+    }
+
+    nav a {
+      color: #ddd;
+      text-decoration: none;
+      font-size: 15px;
+      transition: 0.3s;
+    }
+
+    nav a:hover {
+      color: #19e68c;
+    }
+
+    /* HERO */
+    .hero {
+      min-height: 82vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 40px 20px;
+      background:
+        linear-gradient(rgba(0,0,0,.65), rgba(0,0,0,.85)),
+        radial-gradient(circle at center, #123d30, #070b12 65%);
+    }
+
+    .hero-content {
+      max-width: 900px;
+    }
+
+    .hero h1 {
+      font-size: clamp(42px, 8vw, 85px);
+      line-height: 1;
+      margin-bottom: 20px;
+    }
+
+    .hero h1 span {
+      color: #19e68c;
+    }
+
+    .hero p {
+      color: #b9c0ca;
+      font-size: 19px;
+      margin-bottom: 35px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 14px 25px;
+      margin: 5px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      cursor: pointer;
+      border: none;
+    }
+
+    .primary {
+      background: #19e68c;
+      color: #03110b;
+    }
+
+    .secondary {
+      background: transparent;
+      border: 1px solid #445061;
+      color: white;
+    }
+
+    /* SECTIONS */
+    section {
+      padding: 70px 7%;
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .section-title h2 {
+      font-size: 38px;
+      margin-bottom: 10px;
+    }
+
+    .section-title p {
+      color: #929aa7;
+    }
+
+    /* SEARCH */
+    .search-box {
+      max-width: 650px;
+      margin: 0 auto 35px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .search-box input {
+      flex: 1;
+      padding: 15px;
+      background: #101722;
+      color: white;
+      border: 1px solid #293445;
+      border-radius: 8px;
+      outline: none;
+    }
+
+    /* FILTERS */
+    .filters {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 40px;
+    }
+
+    .filter {
+      padding: 9px 16px;
+      border: 1px solid #303b4b;
+      border-radius: 20px;
+      background: #101722;
+      color: #ccc;
+      cursor: pointer;
+    }
+
+    .filter.active,
+    .filter:hover {
+      background: #19e68c;
+      color: #03110b;
+    }
+
+    /* CARDS */
+    .matches {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+    }
+
+    .card {
+      background: #101722;
+      border: 1px solid #202b3a;
+      border-radius: 14px;
+      overflow: hidden;
+      transition: 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-6px);
+      border-color: #19e68c;
+    }
+
+    .thumbnail {
+      height: 190px;
+      background: linear-gradient(135deg, #123c30, #151d2a);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #19e68c;
+      font-size: 45px;
+    }
+
+    .card-content {
+      padding: 20px;
+    }
+
+    .competition {
+      color: #19e68c;
+      font-size: 13px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .teams {
+      font-size: 21px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .details {
+      color: #8f99a8;
+      font-size: 14px;
+      line-height: 1.7;
+      margin-bottom: 15px;
+    }
+
+    /* ABOUT */
+    .about {
+      max-width: 850px;
+      margin: auto;
+      text-align: center;
+    }
+
+    .about p {
+      color: #aeb6c2;
+      line-height: 1.8;
+      font-size: 17px;
+    }
+
+    /* CONTACT */
+    .contact-form {
+      max-width: 600px;
+      margin: auto;
+      display: grid;
+      gap: 15px;
+    }
+
+    .contact-form input,
+    .contact-form textarea {
+      width: 100%;
+      padding: 15px;
+      border-radius: 8px;
+      border: 1px solid #293445;
+      background: #101722;
+      color: white;
+      outline: none;
+    }
+
+    .contact-form textarea {
+      min-height: 150px;
+      resize: vertical;
+    }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 30px;
+      border-top: 1px solid #202938;
+      color: #77808d;
+    }
+
+    @media (max-width: 700px) {
+      nav ul {
+        display: none;
+      }
+
+      section {
+        padding: 55px 5%;
+      }
+
+      .hero {
+        min-height: 75vh;
+      }
+
+      .search-box {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+    <div class="logo">Football<span>Pulse</span></div>
+
+    <ul>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#highlights">Highlights</a></li>
+      <li><a href="#matches">Matches</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-content">
+
+      <h1>
+        WELCOME TO
+        <span>FOOTBALLPULSE</span>
+      </h1>
+
+      <p>
+        Football Edits • Match Highlights • Best Football Moments
+      </p>
+
+      <a href="#highlights" class="btn primary">
+        WATCH HIGHLIGHTS
+      </a>
+
+      <a href="#matches" class="btn secondary">
+        MATCHES
+      </a>
+
+    </div>
+  </section>
+
+
+  <!-- HIGHLIGHTS -->
+  <section id="highlights">
+
+    <div class="section-title">
+      <h2>Latest Highlights</h2>
+      <p>Watch the latest football edits and match moments.</p>
+    </div>
+
+    <div class="search-box">
+      <input
+        type="text"
+        id="search"
+        placeholder="Search team, player or competition..."
+        onkeyup="searchMatches()"
+      >
+    </div>
+
+    <div class="filters">
+      <button class="filter active" onclick="filterMatches('All')">All</button>
+      <button class="filter" onclick="filterMatches('Premier League')">Premier League</button>
+      <button class="filter" onclick="filterMatches('Champions League')">Champions League</button>
+      <button class="filter" onclick="filterMatches('La Liga')">La Liga</button>
+      <button class="filter" onclick="filterMatches('International')">International</button>
+    </div>
+
+    <div class="matches" id="matchContainer"></div>
+
+  </section>
+
+
+  <!-- MATCHES -->
+  <section id="matches">
+
+    <div class="section-title">
+      <h2>Match Information</h2>
+      <p>Complete information about every featured match.</p>
+    </div>
+
+    <div class="about">
+      <p>
+        FootballPulse brings football edits and match highlights together
+        in one place. Find match information, teams, competitions,
+        dates and watch links easily.
+      </p>
+    </div>
+
+  </section>
+
+
+  <!-- ABOUT -->
+  <section id="about">
+
+    <div class="section-title">
+      <h2>About FootballPulse</h2>
+    </div>
+
+    <div class="about">
+      <p>
+        FootballPulse is a football edits and highlights platform
+        created for football fans. Discover exciting match moments,
+        edits and football content from around the world.
+      </p>
+    </div>
+
+  </section>
+
+
+  <!-- CONTACT -->
+  <section id="contact">
+
+    <div class="section-title">
+      <h2>Contact Us</h2>
+      <p>Have a question? Send us a message.</p>
+    </div>
+
+    <form
+      class="contact-form"
+      action="https://api.web3forms.com/submit"
+      method="POST"
+    >
+
+      <!-- PUT YOUR WEB3FORMS KEY HERE -->
+      <input
+        type="hidden"
+        name="access_key"
+        value="YOUR_WEB3FORMS_ACCESS_KEY"
+      >
+
+      <input
+        type="text"
+        name="name"
+        placeholder="Your Name"
+        required
+      >
+
+      <input
+        type="email"
+        name="email"
+        placeholder="Your Email"
+        required
+      >
+
+      <textarea
+        name="message"
+        placeholder="Your Message"
+        required
+      ></textarea>
+
+      <button class="btn primary" type="submit">
+        SEND MESSAGE
+      </button>
+
+    </form>
+
+  </section>
+
+
+  <!-- FOOTER -->
+  <footer>
+    © 2026 FootballPulse — Football Edits & Highlights
+  </footer>
+
+
+  <script>
+
+    /*
+      ======================================
+      FOOTBALL MATCH DATA
+      ======================================
+      Yahan tum apne matches add kar sakte ho.
+    */
+
+    const matches = [
+
+      {
+        competition: "Champions League",
+        team1: "Real Madrid",
+        team2: "Manchester City",
+        date: "22 September 2026",
+        score: "2 - 1",
+        description: "Amazing football match highlights.",
+        video: "https://www.youtube.com/"
+      },
+
+      {
+        competition: "Premier League",
+        team1: "Liverpool",
+        team2: "Arsenal",
+        date: "21 September 2026",
+        score: "3 - 2",
+        description: "Exciting Premier League football edit.",
+        video: "https://www.youtube.com/"
+      },
+
+      {
+        competition: "La Liga",
+        team1: "Barcelona",
+        team2: "Real Madrid",
+        date: "20 September 2026",
+        score: "2 - 2",
+        description: "El Clasico football edit.",
+        video: "https://www.youtube.com/"
+      }
+
+    ];
+
+
+    const container = document.getElementById("matchContainer");
+
+
+    function displayMatches(data) {
+
+      container.innerHTML = "";
+
+      if (data.length === 0) {
+
+        container.innerHTML =
+          "<p style='color:#999;text-align:center;'>No matches found.</p>";
+
+        return;
+      }
+
+
+      data.forEach(match => {
 
-const matches = [
-
-  {
-    competition: "Champions League",
-    team1: "Real Madrid",
-    team2: "Manchester City",
-    date: "22 September 2026",
-    score: "2 - 1",
-    player: "Kylian Mbappe",
-    description: "Amazing Champions League football edit.",
-    video: "https://www.youtube.com/"
-  },
-
-  {
-    competition: "Premier League",
-    team1: "Liverpool",
-    team2: "Arsenal",
-    date: "21 September 2026",
-    score: "3 - 2",
-    player: "Mohamed Salah",
-    description: "Exciting Premier League football highlights.",
-    video: "https://www.youtube.com/"
-  },
-
-  {
-    competition: "La Liga",
-    team1: "Barcelona",
-    team2: "Real Madrid",
-    date: "20 September 2026",
-    score: "2 - 2",
-    player: "Lamine Yamal",
-    description: "El Clasico football edit.",
-    video: "https://www.youtube.com/"
-  }
-
-];
-
-
-const container = document.getElementById("matchContainer");
-
-
-/* DISPLAY MATCHES */
-
-function displayMatches(data) {
-
-  container.innerHTML = "";
-
-  if (data.length === 0) {
-
-    container.innerHTML = `
-      <div style="
-        grid-column: 1/-1;
-        text-align:center;
-        padding:50px;
-        color:#999;
-      ">
-        <h3>No matches found ⚽</h3>
-        <p>Try searching another team, player or competition.</p>
-      </div>
-    `;
-
-    return;
-  }
-
-
-  data.forEach(match => {
-
-    const card = document.createElement("div");
-
-    card.className = "card";
-
-    card.innerHTML = `
-
-      <div class="thumbnail">
-        ⚽
-      </div>
-
-      <div class="card-content">
-
-        <div class="competition">
-          ${match.competition}
-        </div>
-
-        <div class="teams">
-          ${match.team1} vs ${match.team2}
-        </div>
-
-        <div class="details">
-
-          📅 ${match.date}<br>
-
-          🏆 ${match.competition}<br>
-
-          ⚽ Score: ${match.score}<br>
-
-          ⭐ Player: ${match.player}
-
-        </div>
-
-        <p class="details">
-          ${match.description}
-        </p>
-
-        <a
-          href="${match.video}"
-          target="_blank"
-          class="btn primary"
-        >
-          WATCH VIDEO
-        </a>
-
-      </div>
-
-    `;
-
-    container.appendChild(card);
-
-  });
-
-}
-
-
-/* SEARCH FUNCTION */
-
-function searchMatches() {
-
-  const searchInput =
-    document.getElementById("search");
-
-  const searchText =
-    searchInput.value
-      .toLowerCase()
-      .trim();
-
-
-  /* If search box is empty */
-
-  if (searchText === "") {
-
-    displayMatches(matches);
-
-    return;
-
-  }
-
-
-  /* Search through all match information */
-
-  const results = matches.filter(match => {
-
-    return (
-
-      match.team1.toLowerCase().includes(searchText) ||
-
-      match.team2.toLowerCase().includes(searchText) ||
-
-      match.competition.toLowerCase().includes(searchText) ||
-
-      match.date.toLowerCase().includes(searchText) ||
-
-      match.score.toLowerCase().includes(searchText) ||
-
-      match.player.toLowerCase().includes(searchText) ||
-
-      match.description.toLowerCase().includes(searchText)
-
-    );
-
-  });
-
-
-  displayMatches(results);
-
-}
-
-
-/* CATEGORY FILTER */
-
-function filterMatches(category) {
-
-  document
-    .querySelectorAll(".filter")
-    .forEach(button =>
-      button.classList.remove("active")
-    );
-
-
-  if (event && event.target) {
-    event.target.classList.add("active");
-  }
-
-
-  if (category === "All") {
-
-    displayMatches(matches);
-
-    return;
-
-  }
-
-
-  const filtered =
-    matches.filter(
-      match =>
-        match.competition === category
-    );
-
-
-  displayMatches(filtered);
-
-}
-
-
-/* SHOW ALL MATCHES WHEN WEBSITE OPENS */
-
-displayMatches(matches);
-
-
-/* ENTER KEY SEARCH */
-
-document
-  .getElementById("search")
-  .addEventListener("keydown", function(event) {
-
-    if (event.key === "Enter") {
-
-      searchMatches();
 
     }
 
-  });
 
-</script>
+    function searchMatches() {
+
+      const search =
+        document
+          .getElementById("search")
+          .value
+          .toLowerCase();
+
+      const results = matches.filter(match =>
+
+        match.team1.toLowerCase().includes(search) ||
+
+        match.team2.toLowerCase().includes(search) ||
+
+        match.competition.toLowerCase().includes(search)
+
+      );
+
+      displayMatches(results);
+
+    }
+
+
+    // Show matches when website opens
+    displayMatches(matches);
+
+  </script>
+
+</body>
+</html>
